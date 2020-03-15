@@ -4,9 +4,13 @@ serverPort = 20001
 bufferSize = 1024
 
 clientSocket = socket(AF_INET, SOCK_DGRAM)
-message = raw_input("Input lowercase sentence: ") 
-clientSocket.sendto(message.encode(),(serverName, serverPort)) 
-modifiedMessage, serverAddress = clientSocket.recvfrom(bufferSize) 
+message = raw_input("Enter Command: ") 
 
-print(modifiedMessage.decode())
+while message != "exit":
+  clientSocket.sendto(message.encode(),(serverName, serverPort)) 
+  modifiedMessage, serverAddress = clientSocket.recvfrom(bufferSize) 
+  print(modifiedMessage.decode())
+  message = raw_input("Enter Command: ") 
+
+
 clientSocket.close()

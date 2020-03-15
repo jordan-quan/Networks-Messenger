@@ -14,14 +14,33 @@ print("The server is ready to receive")
 
 # Listen for incoming datagrams
 while(True):
-    message, clientAddress = serverSocket.recvfrom(bufferSize) 
-    modifiedMessage = message.decode().upper() 
-  
-    clientMsg = "Message from Client:{}".format(modifiedMessage)
+    encodedMessage, clientAddress = serverSocket.recvfrom(bufferSize) 
+    message = encodedMessage.decode()
+    serverMessage = ""
+
+    clientMsg = "Message from Client: {}".format(message)
     clientIP  = "Client IP Address:{}".format(clientAddress)
-    
+
     print(clientMsg)
     print(clientIP)
 
+    if message == "Online":
+      serverMessage = "Selected Online"
+
+    elif message == "query for peers":
+      serverMessage = "Selected query for peers"
+
+    elif message == "Joined":
+      serverMessage = "Selected Joined"
+    
+    elif message == "exit chatroom":
+      serverMessage = "Selected exit chatroom"
+
+    elif message == "Offline":
+      serverMessage = "Selected Offline"
+    
+    else:
+      serverMessage = "Invalid Command"
+    
     # Sending a reply to client
-    serverSocket.sendto(modifiedMessage.encode(), clientAddress)
+    serverSocket.sendto(serverMessage.encode(), clientAddress)
